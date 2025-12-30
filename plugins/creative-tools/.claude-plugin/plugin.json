@@ -1,0 +1,12 @@
+{
+  "name": "creative-tools",
+  "version": "1.0.0",
+  "description": "Creative output skills for diagrams, UI design, generative art, and visual explanations. Produces publication-quality Mermaid diagrams, distinctive frontends, and ASCII visualizations.",
+  "author": {
+    "name": "Mahid Alhan",
+    "url": "https://github.com/mahidalhan"
+  },
+  "repository": "https://github.com/mahidalhan/skilled-intelligence-marketplace",
+  "license": "MIT",
+  "keywords": ["mermaid", "diagrams", "frontend", "design", "ascii", "art", "visualization"]
+}

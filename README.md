@@ -8,11 +8,15 @@
 
 Each plugin is **self-contained and independently installable**. Install only what you need.
 
-| Plugin | Description | Skills |
-|--------|-------------|--------|
-| **[spec-workflow](plugins/spec-workflow/README.md)** | Spec-driven development with proposal creation, TDD, and archiving | 4 skills |
-| **[code-intelligence](plugins/code-intelligence/README.md)** | Code search and architecture analysis via Exa API | 2 skills |
-| **[skill-tools](plugins/skill-tools/README.md)** | Tools for creating custom Claude skills | 1 skill |
+| Plugin | Description | Skills | Commands |
+|--------|-------------|--------|----------|
+| **[spec-workflow](plugins/spec-workflow/README.md)** | Spec-driven development with proposal creation, TDD, and archiving | 4 skills | - |
+| **[code-intelligence](plugins/code-intelligence/README.md)** | Code search and architecture analysis via Exa API | 2 skills | - |
+| **[skill-tools](plugins/skill-tools/README.md)** | Deterministic skill creation with quality constraints | 1 skill | - |
+| **[learning-tools](plugins/learning-tools/README.md)** | Interactive teaching with chunked explanations | 2 skills | - |
+| **[creative-tools](plugins/creative-tools/README.md)** | Diagrams, UI design, generative art | 4 skills | - |
+| **[workflow-tools](plugins/workflow-tools/README.md)** | Session handoffs, planning, code quality | 2 skills | 7 commands |
+| **[git-tools](plugins/git-tools/README.md)** | Git commits and PR descriptions | - | 2 commands |
 
 ## Status Line Script
 
@@ -55,10 +59,14 @@ A custom status line script that displays real-time session information in your 
 # Add marketplace
 /plugin marketplace add mahidalhan/skilled-intelligence-marketplace
 
-# Install individual plugins (choose one or all)
+# Install individual plugins (choose what you need)
 /plugin install spec-workflow@skilled-intelligence
 /plugin install code-intelligence@skilled-intelligence
 /plugin install skill-tools@skilled-intelligence
+/plugin install learning-tools@skilled-intelligence
+/plugin install creative-tools@skilled-intelligence
+/plugin install workflow-tools@skilled-intelligence
+/plugin install git-tools@skilled-intelligence
 ```
 
 **Note**: Each plugin is fully independent and can be installed separately. Choose only the plugins you need.
@@ -84,7 +92,11 @@ Create `.claude/settings.json` in your project root:
   "enabledPlugins": {
     "spec-workflow@skilled-intelligence": true,
     "code-intelligence@skilled-intelligence": true,
-    "skill-tools@skilled-intelligence": true
+    "skill-tools@skilled-intelligence": true,
+    "learning-tools@skilled-intelligence": true,
+    "creative-tools@skilled-intelligence": true,
+    "workflow-tools@skilled-intelligence": true,
+    "git-tools@skilled-intelligence": true
   }
 }
 ```
@@ -123,7 +135,43 @@ Searches billions of GitHub repos for real, working examples.
 Create a skill for processing CSV files
 ```
 
-Guides you through skill design and generates the complete structure.
+Guides you through deterministic skill design with quality constraints.
+
+### learning-tools
+
+```
+Explain how React hooks work
+```
+
+Interactive explanations with chunked delivery and comprehension checks.
+
+### creative-tools
+
+```
+Create a mermaid diagram of the authentication flow
+```
+
+Publication-quality diagrams, distinctive UI designs, and generative art.
+
+### workflow-tools
+
+```
+/create-handoff
+/resume-handoff docs/handoffs/latest.md
+/daily-standup
+/deslop
+```
+
+Session handoffs, code planning, and quality enforcement commands.
+
+### git-tools
+
+```
+/commit
+/describe-pr
+```
+
+Smart commits and comprehensive PR descriptions.
 
 ## Plugin Management
 

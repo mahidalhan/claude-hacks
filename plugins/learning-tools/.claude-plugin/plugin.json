@@ -1,0 +1,12 @@
+{
+  "name": "learning-tools",
+  "version": "1.0.0",
+  "description": "Interactive teaching skills with chunked explanations, comprehension checks, and interrupt handling. Use for explaining code, concepts, or learning on-the-go.",
+  "author": {
+    "name": "Mahid Alhan",
+    "url": "https://github.com/mahidalhan"
+  },
+  "repository": "https://github.com/mahidalhan/skilled-intelligence-marketplace",
+  "license": "MIT",
+  "keywords": ["learning", "teaching", "explainer", "education", "comprehension"]
+}

@@ -1,0 +1,12 @@
+{
+  "name": "git-tools",
+  "version": "1.0.0",
+  "description": "Git workflow commands for commits, PR descriptions, and code quality enforcement. Follows Rich Hickey's Simple Made Easy principles.",
+  "author": {
+    "name": "Mahid Alhan",
+    "url": "https://github.com/mahidalhan"
+  },
+  "repository": "https://github.com/mahidalhan/skilled-intelligence-marketplace",
+  "license": "MIT",
+  "keywords": ["git", "commit", "pull-request", "workflow", "quality"]
+}

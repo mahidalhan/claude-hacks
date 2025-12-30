@@ -1,0 +1,12 @@
+{
+  "name": "workflow-tools",
+  "version": "1.0.0",
+  "description": "Development workflow skills for session handoffs, implementation planning, task orchestration, and XML context structuring. Enables seamless multi-session work.",
+  "author": {
+    "name": "Mahid Alhan",
+    "url": "https://github.com/mahidalhan"
+  },
+  "repository": "https://github.com/mahidalhan/skilled-intelligence-marketplace",
+  "license": "MIT",
+  "keywords": ["workflow", "handoff", "planning", "orchestration", "xml", "context"]
+}
