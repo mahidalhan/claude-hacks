@@ -1,6 +1,6 @@
 # Skilled Intelligence Marketplace
 
-Claude Code plugin marketplace providing intelligent development tools.
+Flat marketplace of individual skills and commands. Install only what you need.
 
 ## Structure
 
@@ -8,58 +8,90 @@ Claude Code plugin marketplace providing intelligent development tools.
 skilled-intelligence/
 ├── .claude-plugin/
 │   └── marketplace.json        # Single source of truth for all plugins
-├── plugins/
-│   └── {plugin-name}/
-│       ├── commands/           # Slash commands (auto-discovered)
-│       │   └── {command}.md    # /command-name
-│       └── skills/             # Skills (auto-discovered)
-│           └── {skill-name}/
-│               ├── SKILL.md    # Skill definition with YAML frontmatter
-│               └── references/ # Supporting docs (optional)
-├── README.md                   # All documentation lives here
-└── CLAUDE.md                   # This file
+├── skills/
+│   └── {skill-name}/           # Each skill is its own installable plugin
+│       ├── skills/
+│       │   └── {skill-name}/
+│       │       └── SKILL.md    # Skill definition
+│       └── commands/           # Related commands (optional)
+│           └── {command}.md
+├── commands/
+│   └── {command-name}/         # Standalone commands (no skill)
+│       └── commands/
+│           └── {command}.md
+├── README.md
+└── CLAUDE.md
 ```
 
-## Plugins
+## Available Plugins
 
-| Plugin | Skills | Commands |
-|--------|--------|----------|
-| code-intelligence | exa-code-context, architecture-introspector | /code-search, /analyze-architecture |
-| learning-tools | explainer, threaded-explainer | /explain, /threaded-explainer |
-| creative-tools | mermaid-diagrams, frontend-design, algorithmic-art, ascii-art-explainer | /diagram, /design-ui, /generative-art, /ascii-explain |
-| workflow-tools | task-orchestrator, xml-context-engineering | /create-handoff, /resume-handoff, /orchestrate, /plan-code-changes, /daily-standup, /deslop, /rich-simplicity, /test-coverage, /xml-context |
-| skill-tools | skill-creator | /create-skill |
-| git-tools | - | /commit, /describe-pr |
+### Skills (with optional commands)
+| Plugin | Command | Description |
+|--------|---------|-------------|
+| standup | /daily-standup | Project status briefing from git/PRs/issues |
+| exa-code-context | /code-search | Search GitHub for real code examples |
+| architecture-introspector | /analyze-architecture | First-principles architecture analysis |
+| explainer | /explain | Interactive chunked explanations |
+| threaded-explainer | /threaded-explainer | Deep-dive nested topic threads |
+| mermaid-diagrams | /diagram | Publication-quality Mermaid diagrams |
+| frontend-design | /design-ui | Distinctive UI design |
+| algorithmic-art | /generative-art | Procedural generative art |
+| ascii-art-explainer | /ascii-explain | ASCII art visualizations |
+| xml-context-engineering | /xml-context | XML context structuring for LLMs |
+| task-orchestrator | /orchestrate | Multi-step task planning |
+| skill-creator | /create-skill | Scaffold new skills |
+
+### Commands (standalone)
+| Plugin | Commands | Description |
+|--------|----------|-------------|
+| git-commit | /commit | Create git commits for session changes |
+| describe-pr | /describe-pr | Generate PR descriptions |
+| handoff | /create-handoff, /resume-handoff | Session continuity |
+| plan-code-changes | /plan-code-changes | Implementation planning |
+| deslop | /deslop | Remove over-engineering |
+| rich-simplicity | /rich-simplicity | Simple Made Easy review |
+| test-coverage | /test-coverage | Test coverage analysis |
 
 <critical_learnings>
 ## Maintenance Rules
 
+### Flat Structure (CRITICAL)
+Each skill/command is its own installable plugin. Users install individual capabilities, not bundles.
+
+**Adding a new skill:**
+1. Create `skills/{skill-name}/skills/{skill-name}/SKILL.md`
+2. Optionally add `skills/{skill-name}/commands/{command}.md`
+3. Add entry to marketplace.json
+4. Commit and push
+
+**Adding a standalone command:**
+1. Create `commands/{command-name}/commands/{command}.md`
+2. Add entry to marketplace.json
+3. Commit and push
+
 ### Version Bumping (CRITICAL)
-Claude Code caches plugins by version. Changes to commands/skills are INVISIBLE to users until version is bumped in marketplace.json.
+Claude Code caches plugins by version. Changes are INVISIBLE until version is bumped.
 
 **When to bump version:**
-- Any command added, removed, or renamed
-- Any skill content changed
-- Any file structure changed
+- Any content changed in SKILL.md or command files
+- Any file added or removed
 
 **How:**
 ```json
-// .claude-plugin/marketplace.json
-"version": "1.0.2"  // bump to "1.0.3"
+// In marketplace.json, find the plugin entry
+"version": "1.0.0"  // bump to "1.0.1"
 ```
 
 ### Command Naming
 Command filename = command name. No configuration needed.
-- `teach.md` → `/teach`
-- `threaded-explainer.md` → `/threaded-explainer`
-
-To rename a command: `git mv old.md new.md` + bump version
+- `daily-standup.md` → `/daily-standup`
+- `commit.md` → `/commit`
 
 ### No plugin.json Needed
 Individual plugins do NOT need `.claude-plugin/plugin.json`. The marketplace.json handles all metadata. Auto-discovery finds commands/ and skills/ directories.
 
 ### Single README Policy
-All documentation in root README.md. No per-skill or per-plugin READMEs. Prevents drift and maintenance overhead.
+All documentation in root README.md. No per-skill READMEs. Prevents drift.
 
 ### Testing Changes
 Always test in a SEPARATE project after pushing:
@@ -116,9 +148,9 @@ Commands invoke skills via `@skill-name` reference.
 
 ## Development Workflow
 
-1. Make changes to skills/commands
-2. Test locally in this repo
-3. Bump version in marketplace.json
+1. Create skill/command in appropriate directory
+2. Add entry to marketplace.json with version "1.0.0"
+3. Test locally in this repo
 4. Commit and push
 5. Test in separate project with marketplace update
 
