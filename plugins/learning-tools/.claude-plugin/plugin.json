@@ -9,5 +9,5 @@
   "repository": "https://github.com/mahidalhan/skilled-spec",
   "license": "MIT",
   "keywords": ["learning", "teaching", "explainer", "education", "comprehension"],
-  "skills": "./skills/"
+  "skills": "../skills/"
 }

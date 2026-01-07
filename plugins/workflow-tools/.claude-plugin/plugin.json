@@ -9,6 +9,6 @@
   "repository": "https://github.com/mahidalhan/skilled-spec",
   "license": "MIT",
   "keywords": ["workflow", "handoff", "planning", "orchestration", "xml", "context"],
-  "skills": "./skills/",
-  "commands": "./commands/"
+  "skills": "../skills/",
+  "commands": "../commands/"
 }

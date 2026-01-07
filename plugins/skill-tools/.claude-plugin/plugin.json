@@ -10,5 +10,5 @@
   "repository": "https://github.com/mahidalhan/skilled-spec",
   "license": "MIT",
   "keywords": ["skill-development", "meta", "scaffolding", "validation", "packaging"],
-  "skills": "./skills/"
+  "skills": "../skills/"
 }

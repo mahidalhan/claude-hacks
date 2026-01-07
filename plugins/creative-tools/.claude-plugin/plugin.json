@@ -9,5 +9,5 @@
   "repository": "https://github.com/mahidalhan/skilled-spec",
   "license": "MIT",
   "keywords": ["mermaid", "diagrams", "frontend", "design", "ascii", "art", "visualization"],
-  "skills": "./skills/"
+  "skills": "../skills/"
 }

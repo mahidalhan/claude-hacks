@@ -10,5 +10,5 @@
   "repository": "https://github.com/mahidalhan/skilled-spec",
   "license": "MIT",
   "keywords": ["code-search", "exa", "architecture", "first-principles", "analysis", "github"],
-  "skills": "./skills/"
+  "skills": "../skills/"
 }
