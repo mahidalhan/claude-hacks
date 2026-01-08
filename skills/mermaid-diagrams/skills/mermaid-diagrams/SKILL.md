@@ -1,6 +1,8 @@
 ---
 name: mermaid-diagrams
-description: Create exceptional, publication-quality Mermaid diagrams for ERDs, flowcharts, sequence diagrams, and system visualizations. Use this skill when the user needs to visualize data models, processes, or architecture. Generates clear, refined diagrams that communicate complex systems with precision.
+description: |
+  USE WHEN: user needs diagrams, flowcharts, ERDs, sequence diagrams, state machines, architecture visualizations, or says "visualize", "diagram", "chart", "show me".
+  DO NOT USE WHEN: ASCII art suffices, user wants code not diagrams, or when a simple text description works better.
 license: Complete terms in LICENSE.txt
 ---
 

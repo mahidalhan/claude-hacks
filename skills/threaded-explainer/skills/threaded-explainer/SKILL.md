@@ -1,6 +1,8 @@
 ---
 name: threaded-explainer
-description: Teach concepts with resumable chunks, lineage tracking, and interrupt handling. Use when user asks to explain code, understand concepts, or learn on-the-go. Handles mid-explanation curiosity without losing context.
+description: |
+  USE WHEN: teaching complex topics requiring chunked delivery, handling mid-explanation questions, preserving context across interrupts, deep-dive explanations with nested topics.
+  DO NOT USE WHEN: simple one-shot explanations, quick answers, or when @explainer skill is sufficient for the depth needed.
 license: MIT
 ---
 

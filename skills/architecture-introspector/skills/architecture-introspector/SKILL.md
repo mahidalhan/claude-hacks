@@ -1,6 +1,9 @@
 ---
 name: architecture-introspector
-description: Introspect and analyze software architectures using first principles thinking, SpaceX's 5-step engineering methodology (Question, Delete, Simplify, Accelerate, Automate), and software modularity principles. This skill should be used when analyzing existing architectures, evaluating architectural decisions, identifying technical debt, planning refactoring efforts, or assessing whether architectural patterns are justified.
+description: |
+  USE WHEN: analyzing existing architectures, evaluating architectural decisions, identifying technical debt, planning refactoring, assessing whether patterns are justified, onboarding to complex codebases, reviewing PRs with architectural changes.
+  DO NOT USE WHEN: simple code questions, bug fixes, feature implementation, or tasks not requiring architectural analysis.
+  For complex architectural analysis, trigger deep thinking with "think harder" or "ultrathink" to enable thorough first-principles reasoning.
 license: Complete terms in LICENSE.txt
 ---
 
@@ -277,6 +280,14 @@ Use the Architecture Analysis Report template from `references/first_principles_
 - **Measure before/after** - Quantify improvement (LOC, component count, deployment time)
 - **Start small** - Quick wins build momentum for larger changes
 - **Add back if wrong** - The point is to err on the side of deletion, course-correct as needed
+
+## Deep Thinking Mode
+
+For complex architectural analysis, activate extended thinking:
+- **"think harder"** or **"ultrathink"** triggers maximum reasoning depth (31,999 tokens)
+- Use for: system-wide analysis, critical migration planning, multi-system tradeoffs
+- Enables thorough first-principles reasoning across all 6 phases
+- Recommended when: architecture spans 10+ components, involves legacy systems, or has high stakes
 
 ## Integration with Development Workflows
 

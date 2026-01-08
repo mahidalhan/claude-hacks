@@ -1,6 +1,8 @@
 ---
 name: skill-creator
-description: Create exceptional, deterministic Claude skills that guide AI behavior with precision. Use this skill when the user asks to create new skills, document capabilities, or codify expertise into reusable instructions. Generates structured skill files that produce consistent, high-quality outputs.
+description: |
+  USE WHEN: user asks to create a skill, scaffold a new capability, codify expertise into reusable instructions, or says "create skill", "new skill", "make a skill".
+  DO NOT USE WHEN: user wants to use existing skills, needs general help, or is asking about skill concepts rather than creating one.
 license: Complete terms in LICENSE.txt
 ---
 

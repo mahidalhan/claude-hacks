@@ -10,11 +10,9 @@ claude-hacks/
 │   └── marketplace.json        # Single source of truth for all plugins
 ├── skills/
 │   └── {skill-name}/           # Each skill is its own installable plugin
-│       ├── skills/
-│       │   └── {skill-name}/
-│       │       └── SKILL.md    # Skill definition
-│       └── commands/           # Related commands (optional)
-│           └── {command}.md
+│       └── skills/
+│           └── {skill-name}/
+│               └── SKILL.md    # Skill definition (auto-invocable)
 ├── commands/
 │   └── {command-name}/         # Standalone commands (no skill)
 │       └── commands/
@@ -25,23 +23,25 @@ claude-hacks/
 
 ## Available Plugins
 
-### Skills (with optional commands)
-| Plugin | Command | Description |
-|--------|---------|-------------|
-| standup | /daily-standup | Project status briefing from git/PRs/issues |
-| exa-code-context | /code-search | Search GitHub for real code examples |
-| architecture-introspector | /analyze-architecture | First-principles architecture analysis |
-| explainer | /explain | Interactive chunked explanations |
-| threaded-explainer | /threaded-explainer | Deep-dive nested topic threads |
-| mermaid-diagrams | /diagram | Publication-quality Mermaid diagrams |
-| frontend-design | /design-ui | Distinctive UI design |
-| algorithmic-art | /generative-art | Procedural generative art |
-| ascii-art-explainer | /ascii-explain | ASCII art visualizations |
-| xml-context-engineering | /xml-context | XML context structuring for LLMs |
-| task-orchestrator | /orchestrate | Multi-step task planning |
-| skill-creator | /create-skill | Scaffold new skills |
+### Skills (auto-invocable by Claude)
+Skills are now directly invocable by Claude Code based on their description—no wrapper commands needed.
 
-### Commands (standalone)
+| Skill | Trigger Phrases | Description |
+|-------|-----------------|-------------|
+| standup | "status", "brief me", "catch up" | Project status briefing from git/PRs/issues |
+| exa-code-context | "find examples", "code search" | Search GitHub for real code examples |
+| architecture-introspector | "analyze architecture", "review design" | First-principles architecture analysis |
+| explainer | "explain", "teach me", "how does X work" | Interactive chunked explanations |
+| threaded-explainer | "deep dive", "explain in threads" | Deep-dive nested topic threads |
+| mermaid-diagrams | "diagram", "visualize", "flowchart" | Publication-quality Mermaid diagrams |
+| frontend-design | "design UI", "build interface" | Distinctive UI design |
+| algorithmic-art | "generative art", "create art" | Procedural generative art |
+| ascii-art-explainer | "ASCII diagram", "terminal visual" | ASCII art visualizations |
+| xml-context-engineering | "structure context", "XML tags" | XML context structuring for LLMs |
+| task-orchestrator | "orchestrate", "plan tasks" | Multi-step task planning |
+| skill-creator | "create skill", "new skill" | Scaffold new skills |
+
+### Commands (user-invoked via `/command`)
 | Plugin | Commands | Description |
 |--------|----------|-------------|
 | git-commit | /commit | Create git commits for session changes |
@@ -52,6 +52,44 @@ claude-hacks/
 | rich-simplicity | /rich-simplicity | Simple Made Easy review |
 | test-coverage | /test-coverage | Test coverage analysis |
 
+<ultrathink_guide>
+## ULTRATHINK: Deep Thinking Mode
+
+Claude Code supports extended thinking with trigger words that allocate more reasoning tokens:
+- **"think"** → baseline thinking budget
+- **"think hard"** → increased budget
+- **"think harder"** → more budget
+- **"ultrathink"** → maximum budget (31,999 tokens)
+
+### When to Use ULTRATHINK
+
+Best for:
+- Architectural decisions with multi-system tradeoffs
+- Complex debugging after 2+ failed attempts
+- System-wide analysis spanning 10+ components
+- Critical migrations and legacy system work
+- Multi-step orchestration with non-obvious dependencies
+
+NOT for:
+- Simple code questions
+- Bug fixes with obvious solutions
+- Tasks that don't require deep reasoning
+- Every request (wastes tokens/cost)
+
+### Skills with ULTRATHINK Support
+
+These skills benefit from deep thinking:
+- **architecture-introspector** - First-principles analysis across all 6 phases
+- **task-orchestrator** - Comprehensive dependency graph mapping
+- **xml-context-engineering** - Thorough attention economics analysis
+
+Example usage:
+```
+ultrathink and analyze the architecture of this codebase
+think harder about the task dependencies here
+```
+</ultrathink_guide>
+
 <critical_learnings>
 ## Maintenance Rules
 
@@ -60,9 +98,8 @@ Each skill/command is its own installable plugin. Users install individual capab
 
 **Adding a new skill:**
 1. Create `skills/{skill-name}/skills/{skill-name}/SKILL.md`
-2. Optionally add `skills/{skill-name}/commands/{command}.md`
-3. Add entry to marketplace.json
-4. Commit and push
+2. Add entry to marketplace.json
+3. Commit and push
 
 **Adding a standalone command:**
 1. Create `commands/{command-name}/commands/{command}.md`
@@ -82,10 +119,16 @@ Claude Code caches plugins by version. Changes are INVISIBLE until version is bu
 "version": "1.0.0"  // bump to "1.0.1"
 ```
 
-### Command Naming
-Command filename = command name. No configuration needed.
-- `daily-standup.md` → `/daily-standup`
-- `commit.md` → `/commit`
+### Skills Are Auto-Invocable (NEW)
+As of Claude Code 2.1, skills are visible in the slash command menu by default and Claude can auto-invoke them based on description. No wrapper commands needed.
+
+To opt-out of slash menu visibility:
+```yaml
+---
+name: skill-name
+user-invocable: false  # Hide from slash menu
+---
+```
 
 ### No plugin.json Needed
 Individual plugins do NOT need `.claude-plugin/plugin.json`. The marketplace.json handles all metadata. Auto-discovery finds commands/ and skills/ directories.
@@ -107,7 +150,10 @@ Always test in a SEPARATE project after pushing:
 ```markdown
 ---
 name: skill-name
-description: One-line description for auto-discovery
+description: |
+  USE WHEN: trigger conditions, user phrases, task types that match.
+  DO NOT USE WHEN: conditions where this skill is not appropriate.
+  Optional: requirements like API keys or dependencies.
 license: MIT
 ---
 
@@ -121,11 +167,32 @@ Mandatory structure requirements.
 
 ## Excellence Guidelines
 Quality criteria and anti-patterns.
+
+## Deep Thinking Mode (for complex skills)
+When to use "think harder" or "ultrathink".
+```
+
+### Description Best Practices
+
+Descriptions control auto-invocation accuracy. Use the WHEN/WHEN NOT pattern:
+
+**Good** (high accuracy):
+```yaml
+description: |
+  USE WHEN: analyzing existing architectures, evaluating decisions, identifying technical debt.
+  DO NOT USE WHEN: simple code questions, bug fixes, feature implementation.
+```
+
+**Bad** (low accuracy):
+```yaml
+description: Analyzes architecture  # Too vague, will misfire
 ```
 </skill_authoring>
 
 <command_authoring>
 ## Command File Format
+
+Commands are for user-initiated actions that shouldn't auto-invoke.
 
 ```markdown
 ---
@@ -136,15 +203,21 @@ description: Short description shown in command picker
 
 What this command does.
 
-Uses the @skill-name skill for [purpose].
-
 ## Usage
 - `/command-name arg1`
 - `/command-name arg2`
 ```
-
-Commands invoke skills via `@skill-name` reference.
 </command_authoring>
+
+## New Claude Code Features (v2.1)
+
+Features relevant to plugin development:
+
+- **Skill hot-reload**: Changes in skills/ directories immediately available
+- **Agent field**: Specify agent type in skill frontmatter: `agent: Explore`
+- **Context fork**: Run skills in forked context: `context: fork`
+- **Hooks in skills**: Define `PreToolUse`, `PostToolUse`, `Stop` hooks in skill lifecycle
+- **YAML allowed-tools**: Cleaner tool restrictions in frontmatter
 
 ## Development Workflow
 
@@ -161,5 +234,6 @@ Commands invoke skills via `@skill-name` reference.
 
 ## Links
 
+- [Claude Code Skills Docs](https://code.claude.com/docs/en/skills)
 - [Claude Plugins Guide](https://code.claude.com/docs/en/plugins)
 - [Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces)

@@ -1,6 +1,9 @@
 ---
 name: xml-context-engineering
-description: Structure LLM context using XML tags for maximum attention efficiency. Use when writing system prompts, organizing complex instructions, or engineering context for Claude agents. Produces semantically meaningful XML that creates clear attention anchors.
+description: |
+  USE WHEN: writing system prompts, structuring complex instructions, engineering context for Claude agents, optimizing attention efficiency in long prompts.
+  DO NOT USE WHEN: writing regular code, simple messages, or content where Markdown suffices.
+  For optimal context architecture, trigger deep thinking with "think harder" or "ultrathink" to analyze attention economics thoroughly.
 license: MIT
 ---
 
@@ -30,3 +33,11 @@ NEVER create nested tags more than 2 levels deep (tag soup destroys readability)
 Match tag density to content criticality. Dense XML for complex multi-part instructions. Light XML (or pure Markdown) for conversational context. System prompts benefit from heavy structure; user messages rarely need any.
 
 **IMPORTANT**: Anthropic's research shows context rot increases with token count. XML tags fight this by creating scannable landmarks—but only if used sparingly. The goal is minimum viable structure: just enough tags to create clear boundaries, no more.
+
+## Deep Thinking Mode
+
+For complex context architecture, activate extended thinking:
+- **"think harder"** or **"ultrathink"** triggers maximum reasoning depth (31,999 tokens)
+- Use for: system prompts >2000 tokens, multi-agent coordination, attention-critical applications
+- Enables thorough analysis of semantic boundaries, retrieval patterns, and attention economics
+- Recommended when: prompt engineering for production agents or high-stakes LLM applications

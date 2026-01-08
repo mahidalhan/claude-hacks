@@ -1,6 +1,8 @@
 ---
 name: explainer
-description: Teach code concepts recursively from ground-up with interactive questioning. Use this skill when the user asks to explain code, understand concepts, or learn how something works. Builds understanding layer-by-layer with comprehension checks and gap identification.
+description: |
+  USE WHEN: user asks "explain", "teach me", "how does X work", "help me understand", or wants to learn concepts from first principles with interactive comprehension checks.
+  DO NOT USE WHEN: user wants quick answers, code implementation, or already understands the concept and just needs a reminder.
 license: MIT
 ---
 

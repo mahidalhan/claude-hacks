@@ -1,6 +1,9 @@
 ---
 name: task-orchestrator
-description: Plan and organize complex multi-step tasks with optimal sequential and parallel ordering. Use this skill when the user requests multi-part work requiring dependency analysis. Produces a sorted task plan—execution only on explicit user approval.
+description: |
+  USE WHEN: planning complex multi-step tasks, organizing work with dependencies, identifying parallelization opportunities, breaking down large features into atomic tasks.
+  DO NOT USE WHEN: single simple tasks, tasks without dependencies, or when user just wants immediate execution without planning.
+  For complex orchestration, trigger deep thinking with "think harder" or "ultrathink" to map comprehensive dependency graphs.
 license: MIT
 ---
 
@@ -26,3 +29,11 @@ Focus on:
 - **Revision Support**: If user wants changes, regenerate plan. Don't partially execute then ask—plan is atomic until approved.
 
 NEVER auto-execute without user confirmation (violates planning-only contract), present flat lists without batch structure (loses parallelism visibility), skip the confirmation prompt (user must opt-in to execution), execute partial plans (all-or-nothing after approval), assume "sounds good" means execute (require explicit action words).
+
+## Deep Thinking Mode
+
+For complex multi-step orchestration, activate extended thinking:
+- **"think harder"** or **"ultrathink"** triggers maximum reasoning depth (31,999 tokens)
+- Use for: 10+ task dependency graphs, cross-system orchestration, critical path analysis
+- Enables thorough mapping of all dependencies, parallelism opportunities, and edge cases
+- Recommended when: task failure has high cost, dependencies are non-obvious, or timing matters

@@ -1,6 +1,9 @@
 ---
 name: exa-code-context
-description: Search for relevant code snippets, examples, and documentation from billions of GitHub repositories, documentation pages, and Stack Overflow posts. Use this skill when coding tasks require real working code examples, API usage patterns, framework setup instructions, or library implementation details to eliminate hallucinations and provide accurate, token-efficient context.
+description: |
+  USE WHEN: needing real code examples from GitHub, finding API usage patterns, looking up framework setup, verifying library implementations, eliminating hallucinations with working code.
+  DO NOT USE WHEN: working on proprietary code, questions about the current codebase, or when local context is sufficient.
+  Requires Exa API key configured in environment.
 ---
 
 # Exa Code Context

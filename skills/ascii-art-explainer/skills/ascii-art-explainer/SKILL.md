@@ -1,6 +1,8 @@
 ---
 name: ascii-art-explainer
-description: Create performative ASCII art to explain code concepts with visual impact. Use this skill when the user asks to visualize algorithms, data structures, architecture, control flow, or any code concept that benefits from spatial representation. Generates memorable, educational ASCII diagrams.
+description: |
+  USE WHEN: visualizing algorithms, data structures, architecture, control flow with ASCII art, or when terminal-friendly diagrams are needed.
+  DO NOT USE WHEN: Mermaid diagrams are better suited, rich graphics are available, or simple text explanation suffices.
 license: Complete terms in LICENSE.txt
 ---
 
