@@ -240,6 +240,13 @@
       "description": "Swift Concurrency review and remediation for Swift 6.2+. Use when asked to review Swift Concurrency usage, improve concurrency compliance, or fix Swift concurrency compiler errors in a feature or file.",
       "version": "1.0.0",
       "keywords": []
+    },
+    {
+      "name": "ascii-explainer",
+      "source": "./skills/ascii-explainer",
+      "description": "Explains code, algorithms, system design using ASCII diagrams. Trigger phrases - \"explain visually\", \"I don't get it\", \"show me\", \"ascii diagram\", \"help me understand\". Produces diagram-first explanations ending with TL;DR tables.",
+      "version": "1.0.0",
+      "keywords": []
     }
   ]
 }
