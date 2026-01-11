@@ -10,133 +10,236 @@
       "source": "./skills/standup",
       "description": "Get up to speed on any project. Analyzes git history, PRs, issues to brief you on current state and next steps.",
       "version": "1.2.0",
-      "keywords": ["standup", "status", "briefing", "git", "productivity"]
+      "keywords": [
+        "standup",
+        "status",
+        "briefing",
+        "git",
+        "productivity"
+      ]
     },
     {
       "name": "exa-code-context",
       "source": "./skills/exa-code-context",
       "description": "Search billions of GitHub repos for real code examples using Exa API. Eliminates hallucinations with working patterns.",
       "version": "1.2.0",
-      "keywords": ["code-search", "exa", "github", "examples", "patterns"]
+      "keywords": [
+        "code-search",
+        "exa",
+        "github",
+        "examples",
+        "patterns"
+      ]
     },
     {
       "name": "architecture-introspector",
       "source": "./skills/architecture-introspector",
       "description": "Analyze codebase architecture using first-principles thinking. Understand structure and design decisions.",
       "version": "1.2.0",
-      "keywords": ["architecture", "analysis", "first-principles", "design"]
+      "keywords": [
+        "architecture",
+        "analysis",
+        "first-principles",
+        "design"
+      ]
     },
     {
       "name": "explainer",
       "source": "./skills/explainer",
       "description": "Interactive teaching with chunked explanations and comprehension checks. For explaining code or concepts.",
       "version": "1.2.0",
-      "keywords": ["learning", "teaching", "explanation", "education"]
+      "keywords": [
+        "learning",
+        "teaching",
+        "explanation",
+        "education"
+      ]
     },
     {
       "name": "threaded-explainer",
       "source": "./skills/threaded-explainer",
       "description": "Deep-dive explanations with nested topic threads. For complex subjects requiring progressive disclosure.",
       "version": "1.2.0",
-      "keywords": ["learning", "teaching", "threads", "deep-dive"]
+      "keywords": [
+        "learning",
+        "teaching",
+        "threads",
+        "deep-dive"
+      ]
     },
     {
       "name": "mermaid-diagrams",
       "source": "./skills/mermaid-diagrams",
       "description": "Generate publication-quality Mermaid diagrams for flowcharts, sequences, ERDs, and more.",
       "version": "1.2.0",
-      "keywords": ["mermaid", "diagrams", "flowchart", "visualization"]
+      "keywords": [
+        "mermaid",
+        "diagrams",
+        "flowchart",
+        "visualization"
+      ]
     },
     {
       "name": "frontend-design",
       "source": "./skills/frontend-design",
       "description": "Design distinctive frontend UIs. Produces unique, non-generic interfaces.",
       "version": "1.2.0",
-      "keywords": ["frontend", "ui", "design", "css"]
+      "keywords": [
+        "frontend",
+        "ui",
+        "design",
+        "css"
+      ]
     },
     {
       "name": "algorithmic-art",
       "source": "./skills/algorithmic-art",
       "description": "Create generative art using algorithms. SVG patterns, fractals, and procedural visuals.",
       "version": "1.2.0",
-      "keywords": ["generative", "art", "svg", "procedural", "creative"]
+      "keywords": [
+        "generative",
+        "art",
+        "svg",
+        "procedural",
+        "creative"
+      ]
     },
     {
       "name": "ascii-art-explainer",
       "source": "./skills/ascii-art-explainer",
       "description": "Explain concepts using ASCII art visualizations. Terminal-friendly diagrams.",
       "version": "1.2.0",
-      "keywords": ["ascii", "art", "visualization", "terminal"]
+      "keywords": [
+        "ascii",
+        "art",
+        "visualization",
+        "terminal"
+      ]
     },
     {
       "name": "xml-context-engineering",
       "source": "./skills/xml-context-engineering",
       "description": "Structure LLM context with XML tags for maximum attention efficiency. For prompt engineering.",
       "version": "1.2.0",
-      "keywords": ["xml", "context", "prompts", "attention", "llm"]
+      "keywords": [
+        "xml",
+        "context",
+        "prompts",
+        "attention",
+        "llm"
+      ]
     },
     {
       "name": "task-orchestrator",
       "source": "./skills/task-orchestrator",
       "description": "Plan complex multi-step tasks with dependency analysis and parallel execution batching.",
       "version": "1.2.0",
-      "keywords": ["orchestration", "planning", "tasks", "dependencies"]
+      "keywords": [
+        "orchestration",
+        "planning",
+        "tasks",
+        "dependencies"
+      ]
     },
     {
       "name": "skill-creator",
       "source": "./skills/skill-creator",
       "description": "Create new Claude Code skills. Scaffolding and validation for skill development.",
       "version": "1.2.0",
-      "keywords": ["meta", "skill", "development", "scaffolding"]
+      "keywords": [
+        "meta",
+        "skill",
+        "development",
+        "scaffolding"
+      ]
     },
     {
       "name": "git-commit",
       "source": "./commands/git-commit",
       "description": "Create git commits for session changes. Analyzes work and drafts appropriate commit messages.",
       "version": "1.2.0",
-      "keywords": ["git", "commit", "workflow"]
+      "keywords": [
+        "git",
+        "commit",
+        "workflow"
+      ]
     },
     {
       "name": "describe-pr",
       "source": "./commands/describe-pr",
       "description": "Generate pull request descriptions from branch changes.",
       "version": "1.2.0",
-      "keywords": ["git", "pr", "pull-request", "workflow"]
+      "keywords": [
+        "git",
+        "pr",
+        "pull-request",
+        "workflow"
+      ]
     },
     {
       "name": "handoff",
       "source": "./commands/handoff",
       "description": "Create and resume session handoffs for multi-session work continuity.",
       "version": "1.2.0",
-      "keywords": ["handoff", "session", "continuity", "workflow"]
+      "keywords": [
+        "handoff",
+        "session",
+        "continuity",
+        "workflow"
+      ]
     },
     {
       "name": "plan-code-changes",
       "source": "./commands/plan-code-changes",
       "description": "Plan implementation changes before coding. Structured approach to modifications.",
       "version": "1.2.0",
-      "keywords": ["planning", "implementation", "code-changes"]
+      "keywords": [
+        "planning",
+        "implementation",
+        "code-changes"
+      ]
     },
     {
       "name": "deslop",
       "source": "./commands/deslop",
       "description": "Remove slop and over-engineering from code. Simplify and clean up.",
       "version": "1.2.0",
-      "keywords": ["refactor", "simplify", "cleanup", "quality"]
+      "keywords": [
+        "refactor",
+        "simplify",
+        "cleanup",
+        "quality"
+      ]
     },
     {
       "name": "rich-simplicity",
       "source": "./commands/rich-simplicity",
       "description": "Apply Rich Hickey's Simple Made Easy principles to code review.",
       "version": "1.2.0",
-      "keywords": ["simplicity", "review", "quality", "hickey"]
+      "keywords": [
+        "simplicity",
+        "review",
+        "quality",
+        "hickey"
+      ]
     },
     {
       "name": "test-coverage",
       "source": "./commands/test-coverage",
       "description": "Analyze and improve test coverage for code changes.",
       "version": "1.2.0",
-      "keywords": ["testing", "coverage", "quality"]
+      "keywords": [
+        "testing",
+        "coverage",
+        "quality"
+      ]
+    },
+    {
+      "name": "swift-concurrency-expert",
+      "source": "./skills/swift-concurrency-expert",
+      "description": "Swift Concurrency review and remediation for Swift 6.2+. Use when asked to review Swift Concurrency usage, improve concurrency compliance, or fix Swift concurrency compiler errors in a feature or file.",
+      "version": "1.0.0",
+      "keywords": []
     }
   ]
 }
