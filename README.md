@@ -4,22 +4,54 @@
 
 Extend Claude Code with custom skills, slash commands, and utilities. Install what you need, skip what you don't.
 
-## Install
+---
+
+## Hacks (Zero Install)
+
+Standalone scripts. Copy once, use forever.
+
+### Status Line
+
+![Status Line Preview](assets/statusline-preview.png)
+
+Custom status line: directory | model | context % | git status | cost
 
 ```bash
-# Add marketplace
-/plugin marketplace add mahidalhan/claude-hacks
-
-# Install plugins
-/plugin install code-intelligence@claude-hacks
-/plugin install learning-tools@claude-hacks
-/plugin install creative-tools@claude-hacks
-/plugin install workflow-tools@claude-hacks
-/plugin install skill-tools@claude-hacks
-/plugin install git-tools@claude-hacks
+brew install jq
+curl -o ~/.claude/statusline.sh https://raw.githubusercontent.com/mahidalhan/claude-hacks/master/hacks/statusline.sh
+chmod +x ~/.claude/statusline.sh
+claude config set status_line.command ~/.claude/statusline.sh
 ```
 
-## Plugins & Commands
+### Publish Skill
+
+Publish skills from any project to your own marketplace repo. Copies skill, bumps version, commits & pushes.
+
+```bash
+# Install
+curl -o ~/.local/bin/publish-skill https://raw.githubusercontent.com/mahidalhan/claude-hacks/master/hacks/publish-skill
+chmod +x ~/.local/bin/publish-skill
+
+# Set your marketplace (add to .zshrc)
+export CLAUDE_MARKETPLACE=~/code/my-marketplace
+
+# Usage (from any project with .claude/skills/)
+publish-skill my-skill                            # From .claude/skills/my-skill
+publish-skill my-skill --source /path/to/skill    # Custom source
+publish-skill my-skill --dry-run                  # Preview changes
+```
+
+---
+
+## Plugins (Marketplace)
+
+```bash
+# Add marketplace (once)
+/plugin marketplace add mahidalhan/claude-hacks
+
+# Install any plugin
+/plugin install <plugin-name>@claude-hacks
+```
 
 ### code-intelligence
 Code search and architecture analysis via Exa API (requires `EXA_API_KEY`).
@@ -87,17 +119,7 @@ Smart commits and PR descriptions following best practices.
 | `/commit` | Generate semantic commit |
 | `/describe-pr` | Generate PR description |
 
-## Status Line
-
-![Status Line Preview](assets/statusline-preview.png)
-
-Custom status line displaying session info. See `statusline.sh`.
-
-```bash
-brew install jq
-cp statusline.sh ~/.claude/statusline.sh && chmod +x ~/.claude/statusline.sh
-claude config set status_line.command ~/.claude/statusline.sh
-```
+---
 
 ## Links
 

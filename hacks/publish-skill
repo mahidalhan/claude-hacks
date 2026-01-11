@@ -1,0 +1,369 @@
+#!/usr/bin/env python3
+"""
+Publish a skill from your project to your marketplace repo.
+
+Usage:
+    publish-skill <skill-name> --marketplace PATH [--source PATH] [--dry-run] [--no-push]
+
+Set CLAUDE_MARKETPLACE env var to avoid --marketplace flag every time.
+
+Examples:
+    export CLAUDE_MARKETPLACE=~/code/my-marketplace
+    publish-skill my-skill                          # From .claude/skills/<skill>
+    publish-skill my-skill --source /path/to/skill  # Custom source
+    publish-skill my-skill --dry-run                # Preview changes
+"""
+
+import argparse
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+from datetime import datetime
+
+
+class PublishError(Exception):
+    """Custom exception for publish errors."""
+    pass
+
+
+def log(msg: str, level: str = "info"):
+    """Print formatted log message."""
+    symbols = {"info": "→", "success": "✓", "error": "✗", "warn": "⚠"}
+    colors = {"info": "\033[0m", "success": "\033[32m", "error": "\033[31m", "warn": "\033[33m"}
+    reset = "\033[0m"
+    print(f"{colors.get(level, '')}{symbols.get(level, '→')} {msg}{reset}")
+
+
+def parse_frontmatter(skill_md_path: Path) -> dict:
+    """Parse YAML frontmatter from SKILL.md file."""
+    content = skill_md_path.read_text()
+
+    match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+    if not match:
+        return {}
+
+    frontmatter = {}
+    yaml_content = match.group(1)
+
+    lines = yaml_content.split('\n')
+    current_key = None
+    current_value = []
+
+    for line in lines:
+        key_match = re.match(r'^(\w+):\s*(.*)', line)
+        if key_match:
+            if current_key:
+                frontmatter[current_key] = '\n'.join(current_value).strip()
+
+            current_key = key_match.group(1)
+            value = key_match.group(2).strip()
+
+            if value == '|':
+                current_value = []
+            else:
+                value = re.sub(r'^["\']|["\']$', '', value)
+                current_value = [value]
+        elif current_key and line.startswith('  '):
+            current_value.append(line.strip())
+
+    if current_key:
+        frontmatter[current_key] = '\n'.join(current_value).strip()
+
+    return frontmatter
+
+
+def load_marketplace(marketplace_path: Path) -> dict:
+    """Load and validate marketplace.json."""
+    if not marketplace_path.exists():
+        raise PublishError(f"Marketplace not found: {marketplace_path}")
+
+    try:
+        with open(marketplace_path) as f:
+            data = json.load(f)
+    except json.JSONDecodeError as e:
+        raise PublishError(f"Invalid JSON in marketplace.json: {e}")
+
+    if "plugins" not in data:
+        raise PublishError("marketplace.json missing 'plugins' array")
+
+    return data
+
+
+def save_marketplace(marketplace_path: Path, backup_dir: Path, data: dict, dry_run: bool = False):
+    """Atomically save marketplace.json with backup."""
+    if dry_run:
+        log("Would update marketplace.json", "info")
+        return
+
+    backup_dir.mkdir(exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    backup_path = backup_dir / f"marketplace_{timestamp}.json"
+    shutil.copy(marketplace_path, backup_path)
+    log(f"Backup: {backup_path.name}", "info")
+
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode='w',
+            dir=marketplace_path.parent,
+            suffix='.json',
+            delete=False
+        ) as tmp:
+            json.dump(data, tmp, indent=2)
+            tmp.write('\n')
+            tmp_path = tmp.name
+
+        with open(tmp_path) as f:
+            json.load(f)
+
+        os.rename(tmp_path, marketplace_path)
+
+    except Exception as e:
+        if 'tmp_path' in locals() and os.path.exists(tmp_path):
+            os.unlink(tmp_path)
+        raise PublishError(f"Failed to save marketplace.json: {e}")
+
+
+def bump_version(version: str) -> str:
+    """Bump patch version: 1.0.0 -> 1.0.1"""
+    parts = version.split('.')
+    if len(parts) != 3:
+        raise PublishError(f"Invalid version format: {version}")
+
+    try:
+        major, minor, patch = int(parts[0]), int(parts[1]), int(parts[2])
+    except ValueError:
+        raise PublishError(f"Invalid version format: {version}")
+
+    return f"{major}.{minor}.{patch + 1}"
+
+
+def find_plugin(data: dict, skill_name: str) -> tuple[int, dict] | tuple[None, None]:
+    """Find plugin by name, return (index, plugin) or (None, None)."""
+    for i, plugin in enumerate(data["plugins"]):
+        if plugin.get("name") == skill_name:
+            return i, plugin
+    return None, None
+
+
+def copy_skill(src: Path, dest: Path, dry_run: bool = False):
+    """Copy skill directory to destination."""
+    if dry_run:
+        log(f"Would copy {src} → {dest}", "info")
+        return
+
+    if dest.exists():
+        shutil.rmtree(dest)
+
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(src, dest)
+
+
+def git_commit_push(marketplace_root: Path, skill_name: str, dry_run: bool = False, no_push: bool = False):
+    """Git add, commit, and push."""
+    if dry_run:
+        log("Would commit and push to git", "info")
+        return
+
+    os.chdir(marketplace_root)
+
+    try:
+        subprocess.run(
+            ["git", "add", f"skills/{skill_name}", ".claude-plugin/marketplace.json"],
+            check=True,
+            capture_output=True
+        )
+
+        result = subprocess.run(
+            ["git", "commit", "-m", f"publish: {skill_name}"],
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode != 0:
+            if "nothing to commit" in result.stdout or "nothing to commit" in result.stderr:
+                log("No changes to commit", "warn")
+                return
+            raise PublishError(f"Git commit failed: {result.stderr}")
+
+        log("Committed changes", "success")
+
+        if no_push:
+            log("Skipping push (--no-push)", "info")
+            return
+
+        result = subprocess.run(
+            ["git", "push"],
+            capture_output=True,
+            text=True
+        )
+
+        if result.returncode != 0:
+            raise PublishError(f"Git push failed: {result.stderr}")
+
+        log("Pushed to remote", "success")
+
+    except subprocess.CalledProcessError as e:
+        raise PublishError(f"Git operation failed: {e}")
+
+
+def get_marketplace_name(marketplace_root: Path) -> str:
+    """Extract marketplace name from git remote or directory name."""
+    try:
+        result = subprocess.run(
+            ["git", "remote", "get-url", "origin"],
+            capture_output=True,
+            text=True,
+            cwd=marketplace_root
+        )
+        if result.returncode == 0:
+            url = result.stdout.strip()
+            match = re.search(r'[:/]([^/]+/[^/]+?)(?:\.git)?$', url)
+            if match:
+                return match.group(1)
+    except Exception:
+        pass
+
+    return marketplace_root.name
+
+
+def publish(skill_name: str, source: Path | None = None, marketplace: Path | None = None,
+            dry_run: bool = False, no_push: bool = False):
+    """Main publish workflow."""
+
+    # 1. Resolve marketplace
+    if marketplace is None:
+        env_marketplace = os.environ.get("CLAUDE_MARKETPLACE")
+        if env_marketplace:
+            marketplace = Path(env_marketplace).expanduser().resolve()
+        else:
+            raise PublishError(
+                "No marketplace specified.\n"
+                "  Use --marketplace PATH or set CLAUDE_MARKETPLACE env var"
+            )
+    else:
+        marketplace = Path(marketplace).expanduser().resolve()
+
+    marketplace_json = marketplace / ".claude-plugin" / "marketplace.json"
+    if not marketplace_json.exists():
+        raise PublishError(f"No marketplace.json found at {marketplace_json}")
+
+    skills_dir = marketplace / "skills"
+    backup_dir = marketplace / ".backups"
+    marketplace_name = get_marketplace_name(marketplace)
+
+    log(f"Marketplace: {marketplace}", "info")
+
+    # 2. Resolve source path
+    if source is None:
+        source = Path.cwd() / ".claude" / "skills" / skill_name
+    else:
+        source = Path(source).expanduser().resolve()
+
+    skill_md = source / "SKILL.md"
+
+    log(f"Publishing: {skill_name}", "info")
+    log(f"Source: {source}", "info")
+
+    # 3. Validate source
+    if not source.exists():
+        raise PublishError(f"Source not found: {source}")
+
+    if not skill_md.exists():
+        raise PublishError(f"No SKILL.md found in {source}")
+
+    log("Source validated", "success")
+
+    # 4. Parse frontmatter for description
+    frontmatter = parse_frontmatter(skill_md)
+    description = frontmatter.get("description", "").split('\n')[0]
+    if not description:
+        log("No description in frontmatter - will use placeholder", "warn")
+        description = "TODO: Add description"
+
+    # 5. Copy skill to marketplace
+    dest = skills_dir / skill_name / "skills" / skill_name
+    copy_skill(source, dest, dry_run)
+    log(f"Copied to skills/{skill_name}/", "success")
+
+    # 6. Update marketplace.json
+    data = load_marketplace(marketplace_json)
+    idx, existing = find_plugin(data, skill_name)
+
+    if existing:
+        old_version = existing.get("version", "1.0.0")
+        new_version = bump_version(old_version)
+        data["plugins"][idx]["version"] = new_version
+        log(f"Version: {old_version} → {new_version}", "success")
+    else:
+        new_plugin = {
+            "name": skill_name,
+            "source": f"./skills/{skill_name}",
+            "description": description,
+            "version": "1.0.0",
+            "keywords": []
+        }
+        data["plugins"].append(new_plugin)
+        log(f"Added to marketplace (v1.0.0)", "success")
+        if description == "TODO: Add description":
+            log("Update description in marketplace.json", "warn")
+
+    save_marketplace(marketplace_json, backup_dir, data, dry_run)
+
+    # 7. Git commit and push
+    git_commit_push(marketplace, skill_name, dry_run, no_push)
+
+    # 8. Done
+    print()
+    if dry_run:
+        log("Dry run complete - no changes made", "info")
+    else:
+        log(f"Published! Install with:", "success")
+        print(f"   /plugin install {skill_name}@{marketplace_name}")
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Publish a skill from your project to your marketplace repo",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Set marketplace once
+  export CLAUDE_MARKETPLACE=~/code/my-marketplace
+
+  # Then publish from any project
+  publish-skill my-skill                            # From .claude/skills/my-skill
+  publish-skill my-skill --source /path/to/skill    # Custom source path
+  publish-skill my-skill --dry-run                  # Preview without changes
+        """
+    )
+    parser.add_argument("skill", help="Skill name to publish")
+    parser.add_argument("--source", "-s", help="Source path (default: .claude/skills/<skill>)")
+    parser.add_argument("--marketplace", "-m", help="Marketplace repo path (or set CLAUDE_MARKETPLACE)")
+    parser.add_argument("--dry-run", "-n", action="store_true", help="Show what would happen")
+    parser.add_argument("--no-push", action="store_true", help="Commit but don't push")
+
+    args = parser.parse_args()
+
+    try:
+        publish(
+            skill_name=args.skill,
+            source=Path(args.source) if args.source else None,
+            marketplace=Path(args.marketplace) if args.marketplace else None,
+            dry_run=args.dry_run,
+            no_push=args.no_push
+        )
+    except PublishError as e:
+        log(str(e), "error")
+        sys.exit(1)
+    except KeyboardInterrupt:
+        print("\nAborted")
+        sys.exit(130)
+
+
+if __name__ == "__main__":
+    main()
