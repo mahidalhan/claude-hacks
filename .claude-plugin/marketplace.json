@@ -247,6 +247,13 @@
       "description": "Explains code, algorithms, system design using ASCII diagrams. Trigger phrases - \"explain visually\", \"I don't get it\", \"show me\", \"ascii diagram\", \"help me understand\". Produces diagram-first explanations ending with TL;DR tables.",
       "version": "1.0.1",
       "keywords": []
+    },
+    {
+      "name": "publish-skill",
+      "source": "./skills/publish-skill",
+      "description": "Port skills from any project to the claude-hacks marketplace. Use when publishing or sharing skills.",
+      "version": "1.0.0",
+      "keywords": ["publish", "marketplace", "port", "share"]
     }
   ]
 }
