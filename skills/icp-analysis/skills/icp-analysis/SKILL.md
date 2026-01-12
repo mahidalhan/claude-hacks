@@ -57,46 +57,69 @@ Look for signals:
 
 ## ICP Framework
 
-Build a 4-tier structure:
+### Determining Number of Tiers
 
-### Tier 1: Direct Buyers (Highest Priority)
+The number of tiers should match the business reality. DO NOT default to 4 tiers—analyze the situation first.
 
-Companies with:
-- Immediate, obvious need for the product
-- Clear budget authority
-- Short sales cycle potential
-- Exact product-market fit
+| Business Type | Typical Tiers | Why |
+|--------------|---------------|-----|
+| Niche B2B tool | 2-3 | Narrow focus, clear fit/no-fit |
+| Horizontal SaaS | 3-4 | Multiple segments, similar needs |
+| Enterprise platform | 4-5 | Complex buying, many personas |
+| Marketplace/platform | 3-5 | Supply + demand sides |
+| Consumer product | 2-3 | Demographics-based, simpler |
+| Professional services | 2-4 | Relationship-driven |
 
-**Example criteria to define:**
-- Industry vertical
-- Company size (employees, revenue)
-- Tech stack or infrastructure
-- Specific pain points
-- Decision-maker titles
+**Questions to determine tier count:**
 
-### Tier 2: Strong Fit (High Priority)
+1. **How many distinct buying personas exist?** (Each major persona type = potential tier)
+2. **How different are sales cycles?** (If cycles vary 3x+, likely need separate tiers)
+3. **Are there natural market segments?** (Industry, size, geography, use case)
+4. **What's the product complexity?** (Simple = fewer tiers, complex = more)
+5. **How wide is the TAM?** (Narrow = 2-3 tiers, broad = 4+)
 
-Companies with:
-- Strong need, may require some education
-- Adjacent use cases
-- Likely buyers with longer cycle
-- Good fit with minor customization
+### Tier Template
 
-### Tier 3: Potential Buyers (Medium Priority)
+For EACH tier you create, define:
 
-Companies with:
-- Broader market appeal
-- Need exists but not urgent
-- May require more nurturing
-- Cross-sell or upsell potential
+**Tier [N]: [Descriptive Name] ([Priority Level])**
 
-### Tier 4: Long-shot (Lower Priority)
+- **Profile**: Who are they? (size, industry, stage, characteristics)
+- **Need intensity**: Immediate/strong/moderate/emerging
+- **Buying behavior**: Self-serve, sales-assisted, enterprise sale
+- **Sales cycle**: Days/weeks/months
+- **Success indicators**: What signals a good fit?
+- **Decision makers**: Titles to target
 
-Companies with:
-- Diversification opportunity
-- Emerging need
-- Future potential
-- Experimental fit
+### Example Tier Structures
+
+**2-Tier Example (Developer Tool):**
+- **Tier 1: Individual Developers** — Self-serve, immediate need, low friction
+- **Tier 2: Engineering Teams** — Sales-assisted, team licenses, longer cycle
+
+**3-Tier Example (Marketing SaaS):**
+- **Tier 1: Growth-Stage Startups** — Immediate need, fast decision, price-sensitive
+- **Tier 2: Mid-Market Companies** — Strong need, committee buying, budget available
+- **Tier 3: Enterprise** — Strategic deals, long cycle, high value
+
+**5-Tier Example (Enterprise Platform):**
+- **Tier 1: Innovation Leaders** — Early adopters, direct fit, fast cycle
+- **Tier 2: Fast Followers** — Proven ROI needed, strong fit
+- **Tier 3: Industry Specialists** — Vertical-specific needs, customization required
+- **Tier 4: Cost Optimizers** — Replace existing solution, price-driven
+- **Tier 5: Strategic Partnerships** — Platform/integration deals, complex
+
+### Priority Mapping
+
+| Priority | Score Range | Characteristics |
+|----------|-------------|-----------------|
+| Highest | 4-5 | Immediate need, direct fit, accessible |
+| High | 3-4 | Strong fit, some friction |
+| Medium | 2-3 | Good fit, requires nurturing |
+| Lower | 1-2 | Future potential, long-term |
+| Experimental | 0-1 | Unproven, exploration only |
+
+*Note: Not all tiers need to exist for every business. Use only what makes sense.*
 
 ---
 
@@ -181,10 +204,13 @@ Generate a markdown document like:
 ## Overview
 [Brief description of the company and their product]
 
+## Why [N] Tiers
+[Explain the reasoning for the chosen number of tiers based on business model, sales motion, and market structure]
+
 ## Tier Definitions
 
-### Tier1_[Name] (Highest Priority)
-**Score: 4-5**
+### Tier 1: [Name] ([Priority Level])
+**Score Range: [X-Y]**
 
 [Description of who belongs here]
 
@@ -193,11 +219,14 @@ Generate a markdown document like:
 | [Signal 1] | [Company types] |
 | [Signal 2] | [Company types] |
 
-**Why Priority:** [Business rationale]
+**Why This Tier:** [Business rationale]
+**Sales Motion:** [Self-serve / Sales-assisted / Enterprise]
 **Decision Makers:** [Titles to target]
 
-### Tier2_[Name] (High Priority)
+### Tier 2: [Name] ([Priority Level])
 ...
+
+[Continue for each tier - may be 2, 3, 4, 5, or more]
 
 ## Exclusion Criteria
 [Categories and keywords to skip]
@@ -230,7 +259,8 @@ Generate methodology doc AND structured data.
 
 Before delivering:
 
-- [ ] All 4 tiers defined with clear criteria
+- [ ] Tier count justified (explained why 2, 3, 4, or more)
+- [ ] Each tier has clear, distinct criteria (no overlap)
 - [ ] Exclusion criteria are specific (not generic)
 - [ ] Scoring modifiers are relevant to this business
 - [ ] Decision-maker titles match the buying process
@@ -239,17 +269,43 @@ Before delivering:
 
 ---
 
-## Example Analysis
+## Example Analyses
 
-For a B2B SaaS project management tool:
+### Example 1: Developer CLI Tool (2 Tiers)
 
-**Tier1_TechStartups**: VC-backed startups (50-500 employees) with engineering teams, using modern stack, hiring PMs
-**Tier2_ScaleUps**: Growing companies (500-2000) consolidating tools, have existing PM solution
-**Tier3_Enterprise**: Large companies (2000+) with complex approval processes, long sales cycles
-**Tier4_Agencies**: Service businesses with project-based work, smaller budgets
+Why 2 tiers: Simple product, binary fit (devs use it or don't), self-serve model.
 
-**Exclusions**: Solo consultants, very early stage (<10 employees), industries with specialized PM needs (construction, film)
+**Tier 1: Power Users** — Individual developers already using similar tools, active on GitHub, blog about tooling
+**Tier 2: Team Adoption** — Engineering teams at companies >20 devs, standardizing toolchain
+
+**Exclusions**: Non-technical roles, companies without engineering teams
 
 ---
 
-*This skill is generic - works for any company, not just Performance Leather.*
+### Example 2: B2B SaaS Project Management (3 Tiers)
+
+Why 3 tiers: Clear market segments by company size, different sales motions.
+
+**Tier 1: Growth Startups** — VC-backed (50-200 employees), scaling fast, modern stack, hiring PMs
+**Tier 2: Mid-Market** — Established companies (200-1000), consolidating tools, budget approved
+**Tier 3: Enterprise** — Large orgs (1000+), complex procurement, long cycle, high ACV
+
+**Exclusions**: Solo consultants, <20 employees, specialized industries (construction, film)
+
+---
+
+### Example 3: Enterprise Data Platform (5 Tiers)
+
+Why 5 tiers: Complex product, multiple buyer types, varying use cases, long sales cycles.
+
+**Tier 1: Data-First Companies** — Tech companies with dedicated data teams, immediate need
+**Tier 2: Digital Transformers** — Traditional companies modernizing, strong executive buy-in
+**Tier 3: Regulated Industries** — Finance/healthcare with compliance needs, specific requirements
+**Tier 4: Cost Consolidators** — Companies replacing legacy tools, price-sensitive
+**Tier 5: Platform Partners** — ISVs/consultancies building on the platform
+
+**Exclusions**: Companies <$10M revenue, no data team, industries we can't serve (defense)
+
+---
+
+*This skill adapts to any business model. Let the customer's reality dictate the tier structure.*

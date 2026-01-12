@@ -258,8 +258,8 @@
     {
       "name": "icp-analysis",
       "source": "./skills/icp-analysis",
-      "description": "Analyze a company to identify their Ideal Customer Profiles (ICPs) - buyer personas, verticals, and tiers. Use when asked to analyze ICPs, identify target customers, or understand buyer profiles.",
-      "version": "1.0.0",
+      "description": "Analyze a company to identify their Ideal Customer Profiles (ICPs) - buyer personas, verticals, and flexible tier structures (2-5+ tiers based on business model). Use when asked to analyze ICPs, identify target customers, or understand buyer profiles.",
+      "version": "1.1.0",
       "keywords": ["icp", "sales", "leads", "buyer-persona", "targeting"]
     },
     {
