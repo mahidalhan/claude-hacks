@@ -275,6 +275,13 @@
       "description": "Socratic method for resolving ambiguity in planning, conflicts, or design decisions. Includes edge case/failure analysis with intensity scaling, contradiction detection, and learning capture.",
       "version": "1.0.0",
       "keywords": ["planning", "socratic", "edge-cases", "failure-analysis", "ambiguity"]
+    },
+    {
+      "name": "oracle",
+      "source": "./agents/oracle",
+      "description": "Strategic technical advisor for complex reasoning, architecture decisions, debugging after multiple failed attempts, and code review. Uses ULTRATHINK-level deep analysis with Opus model.",
+      "version": "1.0.0",
+      "keywords": ["oracle", "architecture", "debugging", "advisor", "ultrathink", "opus"]
     }
   ]
 }
