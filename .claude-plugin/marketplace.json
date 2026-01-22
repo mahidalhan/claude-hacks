@@ -282,6 +282,13 @@
       "description": "Strategic technical advisor for complex reasoning, architecture decisions, debugging after multiple failed attempts, and code review. Uses ULTRATHINK-level deep analysis with Opus model.",
       "version": "1.0.0",
       "keywords": ["oracle", "architecture", "debugging", "advisor", "ultrathink", "opus"]
+    },
+    {
+      "name": "communication-coach",
+      "source": "./skills/communication-coach",
+      "description": "PROACTIVE skill - Claude invokes automatically when user messages exhibit anti-patterns. Detects recursive nesting, scope creep, buried asks, assumed context, stream dumps, imprecise descriptions. Disable with 'coach off' or 'raw mode'.",
+      "version": "1.0.0",
+      "keywords": ["proactive", "communication", "clarity", "anti-patterns", "coaching"]
     }
   ]
 }
